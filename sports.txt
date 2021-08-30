@@ -1,0 +1,8 @@
+football
+basketball
+soccer
+baseball
+swimming
+track
+chess
+sleeping

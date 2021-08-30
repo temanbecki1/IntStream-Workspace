@@ -1,9 +1,14 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class JavaStreams {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
 
         //Integer Stream
@@ -43,7 +48,63 @@ public class JavaStreams {
             .sorted()                               //sorts the filtered names
             .forEach(System.out::println);          //prints to screen
 
+
+        //Average of squares of an int array
+        Arrays.stream(new int[] {2, 4, 5, 8, 10})                                               //Array of ints
+            .map(x -> x * x)                            //this maps each (x) int to its square
+            .average()                                  //averages all elements including last because no range used
+            .ifPresent(System.out::println);            //if present, prints to screen (in double form)
+
+
+        //Stream from List, filter and print
+        List<String> people = Arrays.asList("Nylah", "Nyasia", "Teman", "Nya", "Sceaira", "Nyheim");
+        people
+            .stream()                                   //streams the list of people
+            .map(String::toLowerCase)                   //maps them to all lowercase
+            .filter(x -> x.startsWith("n"))             //filters for people names starting with n
+            .forEach(System.out::println);              //prints to screen
+            System.out.println();
+
+
+        //Stream rows from text file, sort, filter, and print
+        Stream<String> sports = Files.lines(Paths.get("sports.txt"));
+        sports
+            .sorted()                                   //sorts
+            .filter(x -> x.length() > 7)                //filters items , will show items with more than 7 characters
+            .forEach(System.out::println);              //prints to screen
+            sports.close();                             //closes file resource to prevent memory leaks
+            System.out.println();
+
+
+        List<String> sports2 = Files.lines(Paths.get("sports.txt"))
+            .filter(x -> x.contains("ing"))             //filters and retrieves elements containing ing
+            .sorted()                                   //sorts filtered items
+            .collect(Collectors.toList());              //adds filtered items to collector as list
+
+        sports2.forEach(x -> System.out.println(x));    //prints to screen results
+
+
+        //Stream rows from CSV file and count
+        Stream<String> rows = Files.lines(Paths.get("data.txt"));
+        int rowCount = (int)rows                        //creates variable rowCount to track amount of rows 
+            .map(x -> x.split(","))                     //splits the row into an array sperated by commas
+            .filter(x -> x.length == 3)                 //filters elements to ensure at least 3 elements in row
+            .count();                                   //counts rows
+        System.out.println(rowCount + " rows.");        //prints amount of rows with 3 elements to screen
+        rows.close();                                   //closes data.txt file to prevent memory leaks
+
+
+
+
+
+
+
         
+
+        
+        
+            
+            
     }
     
 }
