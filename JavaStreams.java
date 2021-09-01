@@ -2,7 +2,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -84,18 +87,57 @@ public class JavaStreams {
         sports2.forEach(x -> System.out.println(x));    //prints to screen results
 
 
-        //Stream rows from CSV file and count
-        Stream<String> rows = Files.lines(Paths.get("data.txt"));
-        int rowCount = (int)rows                        //creates variable rowCount to track amount of rows 
-            .map(x -> x.split(","))                     //splits the row into an array sperated by commas
-            .filter(x -> x.length == 3)                 //filters elements to ensure at least 3 elements in row
-            .count();                                   //counts rows
-        System.out.println(rowCount + " rows.");        //prints amount of rows with 3 elements to screen
-        rows.close();                                   //closes data.txt file to prevent memory leaks
+        // //Stream rows from CSV file and count
+        // Stream<String> rows = Files.lines(Paths.get("data.txt"));
+        // int rowCount = (int)rows                        //creates variable rowCount to track amount of rows 
+        //     .map(x -> x.split(","))                     //splits the row into an array separated by commas
+        //     .filter(x -> x.length == 3)                 //filters elements to ensure at least 3 elements in row
+        //     .count();                                   //counts rows
+        // System.out.println(rowCount + " rows.");        //prints amount of rows with 3 elements to screen
+        // rows.close();                                   //closes data.txt file to prevent memory leaks
+
+
+
+        // //Stream rows from CSV file, parse data from rows
+        // Stream<String> rows1 = Files.lines(Paths.get("data.txt"));
+        // rows1
+        //     .map(x -> x.split(","))                     //split the row into an array seperated by commas
+        //     .filter(x -> x.length == 3)                //filters elementsto ensure at least 3 elements in a row
+        //     //.filter(x -> Integer.parseInt(x[1]) > 12)   //convert the second index to an integer , then only shows if it is greater than 15
+        //     .forEach(x -> System.out.println(x[0] + " " + x[1] + " " + x[2]));          //prints to screen
+        //     rows1.close();                              //closes data.txt file to prevent memory leaks
 
 
 
 
+        // //Strea rows from CSV file, store fields in HashMap
+        // Stream<String> rows2 = Files.lines(Paths.get("data.txt"));
+        // Map<String, Integer> map = new HashMap<>();
+        // map = rows2
+        //     .map(x -> x.split(","))
+        //    // .filter(x -> x.length ==3)
+        //   //  .filter(x -> Integer.parseInt(x[1]) > 15)
+        //     .collect(Collectors.toMap(
+        //         x -> x[0],
+        //         x -> Integer.parseInt(x[1])
+        //     ));
+        // rows2.close();
+
+        // for (String key: map.keySet()){
+        //     System.out.println(key + " " + map.get(key));
+        // }
+
+        //Reduction - sum
+        double total = Stream.of(7.2, 1.6, 4.8)                 //
+            .reduce(0.0,(Double a, Double b) -> a + b );        //0.0 is starting value, then we pass in two doubles, where a is running total and b is new item
+            System.out.println("Total = " + total);             //prints to screen
+
+        
+
+        //reduction - summary statistics only works for integers
+        IntSummaryStatistics summary = IntStream.of(7, 2, 19, 88, 73, 4, 10)     //takes summary stats of stream of ints
+            .summaryStatistics();                                                
+            System.out.println(summary);                        //prints to screen count, sum, min, max and average of values
 
 
 
